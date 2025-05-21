@@ -1,0 +1,41 @@
+name: Build Release
+
+on:
+  push:
+    tags: ["v[0-9]+\\.[0-9]+\\.[0-9]+"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set version
+        run: |
+          VERSION="${GITHUB_REF##*/}"
+          VERSION="${VERSION#v}"
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "Version is ${VERSION}"
+
+      - name: Prepare add-on folder and create zip
+        run: |
+          # Create the proper structure with /cgtour at the top level
+          mkdir -p /tmp/release
+          cp -r cgtour /tmp/release/
+          cd /tmp/release
+          zip -r $GITHUB_WORKSPACE/cgtour-${VERSION}.zip cgtour
+          ls -la $GITHUB_WORKSPACE/
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: cgtour-${{ env.VERSION }}.zip
+          name: CGI Virtual Tour Render Helper v${{ env.VERSION }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true 
