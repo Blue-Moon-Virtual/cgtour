@@ -4,7 +4,7 @@ bl_info = {
     "category": "Render",
     "author": "Artemiy Vrubel",
     "maintainer": "Blue Moon Virtual",
-    "version": (0, 0, 9),
+    "version": (0, 1, 1),
     "description": "Dynamically adjusts render resolution based on frame number for CGI Virtual Tour",
     "location": "Render > CGI Virtual Tour",
 }
