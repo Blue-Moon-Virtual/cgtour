@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Blender backup and temp files
+*.blend1
+*.blend2
+*.blend@
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python virtual environments
+venv/
+.env/
+
+# Distribution / packaging
+*.zip
+*.tar.gz
+
+dist/
+build/
+.eggs/
+*.egg-info/ 

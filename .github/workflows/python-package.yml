@@ -1,0 +1,32 @@
+name: Blender Addon CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install flake8
+        run: pip install flake8
+      - name: Lint with flake8
+        run: |
+          flake8 cgtour --count --select=E9,F63,F7,F82 --show-source --statistics || true
+          flake8 cgtour --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+  # Optionally, add a job to check Blender API compatibility
+  blender-addon-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check for __init__.py and bl_info
+        run: |
+          test -f cgtour/__init__.py
+          grep 'bl_info' cgtour/__init__.py 
